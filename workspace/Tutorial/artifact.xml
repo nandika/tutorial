@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="RideBookingsAPI" groupId="org.wso2.tutorial.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/RideBookingsAPI.xml</file>
+    </artifact>
+    <artifact name="PaymentsEndpoint" groupId="org.wso2.tutorial.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/PaymentsEndpoint.xml</file>
+    </artifact>
+    <artifact name="SendEmailSequence" groupId="org.wso2.tutorial.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/SendEmailSequence.xml</file>
+    </artifact>
+    <artifact name="GetDriverEP" groupId="org.wso2.tutorial.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/GetDriverEP.xml</file>
+    </artifact>
+    <artifact name="GetClientEP" groupId="org.wso2.tutorial.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/GetClientEP.xml</file>
+    </artifact>
+    <artifact name="CreateBookingEP" groupId="org.wso2.tutorial.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/CreateBookingEP.xml</file>
+    </artifact>
+    <artifact name="SMSDriverEP" groupId="org.wso2.tutorial.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/SMSDriverEP.xml</file>
+    </artifact>
+    <artifact name="SMSClientEP" groupId="org.wso2.tutorial.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/SMSClientEP.xml</file>
+    </artifact>
+</artifacts>

@@ -1,0 +1,129 @@
+Request to ESB POST
+
+POST http://localhost:8280/bookings	
+
+{
+"driver": "tiger nixon",
+"client": "James Easton",
+"client-phone": "James Easton"
+}
+
+
+
+Payment Service block amount
+
+http://localhost:9090/payments/block
+
+{
+"paymentInfoReference":"id1",
+"clientName" :"James Easton",
+"amount":"10"
+}
+
+{
+    "status": "ok",
+    "message": "credit validation successful",
+    "code": "001"
+}
+
+Data Service Get all bookings
+
+http://localhost:8280/services/BookingsDataService.HTTPEndpoint/bookings
+
+
+{
+    "Bookings": {
+        "bookings": [
+            {
+                "ref_id": "1",
+                "driver_name": "tiger nixon",
+                "client_name": "James Easton",
+                "phone_number": "0205007001"
+            },
+            {
+                "ref_id": "3",
+                "driver_name": "Lucas Thiyago",
+                "client_name": "Kelly Carter",
+                "phone_number": "0205007004"
+            }
+        ]
+    }
+}
+
+ESB API get bookings
+
+GET http://localhost:8280/bookings
+
+{
+    "bookings": [
+        {
+            "ref_id": 1,
+            "driver_name": "tiger nixon",
+            "phone_number": "0205007001",
+            "client_name": "James Easton"
+        },
+        {
+            "ref_id": 3,
+            "driver_name": "Lucas Thiyago",
+            "phone_number": "0205007004",
+            "client_name": "Kelly Carter"
+        }
+    ]
+}
+
+
+GET driver info
+
+GET http://localhost:8280/services/BookingsDataService.HTTPEndpoint/drivers/tiger nixon
+
+{
+    "Drivers": {
+        "Driver": [
+            {
+                "name": "tiger nixon",
+                "phone_number": "0208007001",
+                "number_plate": "CAS 234",
+                "driver_id": "D0072",
+                "vehicle_type": "car"
+            }
+        ]
+    }
+}
+
+
+POST Booking Request Data Service
+
+POST http://localhost:8280/services/BookingsDataService.HTTPEndpoint/bookings
+
+{"_post_bookings":
+{
+  "driver_name":"tiger nixon",
+  "client_name":"Ryan Martin",
+  "status":"active"
+}
+}
+
+
+Send Driver SMS
+
+POST http://localhost:9090/smsservice/drivers/{driver name}
+
+{"passengerName":"nandika", "passengerPhone":"101010", "driverPhone":"20"}
+
+
+Send Client SMS
+POST http://localhost:9090/smsservice/clients/{client name}
+{	"clientPhone":"0771",
+	"driverName":"Tiger Nixon",
+	"driverPhone": "002082882",
+	"vechileType":"car",
+    "numberPlate": "CWX 0234"
+}
+
+
+
+
+
+
+
+

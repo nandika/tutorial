@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoint name="SMSDriverEP" xmlns="http://ws.apache.org/ns/synapse">
+    <http method="post" uri-template="http://localhost:9090/smsservice/drivers/{uri.var.driver}"/>
+</endpoint>

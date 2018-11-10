@@ -3,17 +3,18 @@
       <property name="carbon_datasource_name">BookingDS</property>
    </config>
    <query id="getClientData" useConfig="BookingDS">
-      <sql>select name, phone_number, payinfo_reference,passenger_id from client where name  = ?</sql>
+      <sql>select name, phone_number, payinfo_reference,passenger_id,email from clients where name  =:name</sql>
       <result element="Clients" rowName="client">
          <element column="name" name="name" xsdType="string"/>
          <element column="phone_number" name="phone_number" xsdType="string"/>
          <element column="payinfo_reference" name="payinfo_reference" xsdType="string"/>
          <element column="passenger_id" name="passenger_id" xsdType="string"/>
+         <element column="email" name="email" xsdType="string"/>
       </result>
       <param name="name" sqlType="STRING"/>
    </query>
    <query id="getDriverInfo" useConfig="BookingDS">
-      <sql>select name, phone_number, vehicle_type,number_plate,driver_id from driver where   name=?</sql>
+      <sql>select name, phone_number, vehicle_type,number_plate,driver_id from drivers where name=?</sql>
       <result element="Drivers" rowName="Driver">
          <element column="name" name="name" xsdType="string"/>
          <element column="phone_number" name="phone_number" xsdType="string"/>
@@ -33,14 +34,24 @@
       <param name="status" sqlType="STRING"/>
    </query>
    <query id="getActiveDriverBooking" useConfig="BookingDS">
-      <sql>select ref_id,dname,cname,status from bookings where dname=? and status = 'active'</sql>
-      <result element="Bookings" rowName="Booking">
-         <element column="ref_id" name="ref_id" xsdType="string"/>
-         <element column="dname" name="dname" xsdType="string"/>
-         <element column="cname" name="cname" xsdType="string"/>
-         <element column="status" name="status" xsdType="string"/>
-      </result>
+      <sql>select ref_id,dname,cname,status from bookings where status = 'active' and dname=:driver_name</sql>
+      <result outputType="json">{"Bookings":{&#xd;"Booking":[&#xd;    {&#xd;        "ref_id":$ref_id,&#xd;        "driver_name":"$dname",&#xd;        "client_name":"$cname",&#xd;         "status":"$status"&#xd;&#xd;    }&#xd;    ]&#xd;}}</result>
       <param name="driver_name" sqlType="STRING"/>
+   </query>
+   <query id="getDriverBooking" useConfig="BookingDS">
+      <sql>select ref_id,dname,cname, status from bookings where dname=:name and status =:status</sql>
+      <result outputType="json">{"Bookings":{"Booking":[{"ref_id":$ref_id,"driver_name":"$dname","client_name":"$cname","status":"$status"}]}}</result>
+      <param name="name" sqlType="STRING"/>
+      <param name="status" sqlType="STRING"/>
+   </query>
+   <query id="getBookings" useConfig="BookingDS">
+      <sql>select bookings.ref_id,bookings.dname,bookings.cname,clients.phone_number from bookings left join clients on bookings.cname = clients.name;</sql>
+      <result element="Bookings" rowName="bookings">
+         <element column="ref_id" name="ref_id" xsdType="string"/>
+         <element column="dname" name="driver_name" xsdType="string"/>
+         <element column="cname" name="client_name" xsdType="string"/>
+         <element column="phone_number" name="phone_number" xsdType="string"/>
+      </result>
    </query>
    <operation name="getClientData">
       <call-query href="getClientData">
@@ -64,26 +75,44 @@
          <with-param name="driver_name" query-param="driver_name"/>
       </call-query>
    </operation>
-   <resource method="GET" path="/client/{name}">
+   <operation name="getDriverBooking">
+      <call-query href="getDriverBooking">
+         <with-param name="name" query-param="name"/>
+         <with-param name="status" query-param="status"/>
+      </call-query>
+   </operation>
+   <operation name="getBookings">
+      <call-query href="getBookings"/>
+   </operation>
+   <resource method="GET" path="/clients/{name}">
       <call-query href="getClientData">
          <with-param name="name" query-param="name"/>
       </call-query>
    </resource>
-   <resource method="GET" path="/driver/{name}">
+   <resource method="GET" path="/drivers/{name}">
       <call-query href="getDriverInfo">
          <with-param name="name" query-param="name"/>
       </call-query>
    </resource>
-   <resource method="POST" path="/booking">
+   <resource method="POST" path="/bookings">
       <call-query href="createBooking">
          <with-param name="driver_name" query-param="driver_name"/>
          <with-param name="client_name" query-param="client_name"/>
          <with-param name="status" query-param="status"/>
       </call-query>
    </resource>
-   <resource method="GET" path="/booking/active/{driver_name}">
+   <resource method="GET" path="/activebookings/{driver_name}">
       <call-query href="getActiveDriverBooking">
          <with-param name="driver_name" query-param="driver_name"/>
       </call-query>
+   </resource>
+   <resource method="GET" path="/bookings/{status}/{name}">
+      <call-query href="getDriverBooking">
+         <with-param name="name" query-param="name"/>
+         <with-param name="status" query-param="status"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/bookings">
+      <call-query href="getBookings"/>
    </resource>
 </data>
