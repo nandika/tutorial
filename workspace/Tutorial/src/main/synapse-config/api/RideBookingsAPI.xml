@@ -119,7 +119,7 @@
             <property action="remove" name="Content-Type" scope="transport"/>
             <call>
                 <endpoint>
-                    <http method="get" uri-template="http://localhost:8280/services/BookingsDataService.HTTPEndpoint/bookings"/>
+                    <http method="get" uri-template="http://localhost:8282/services/BookingsDataService.HTTPEndpoint/bookings"/>
                 </endpoint>
             </call>
             <payloadFactory description="" media-type="json">
