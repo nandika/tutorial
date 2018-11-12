@@ -48,9 +48,9 @@
       <sql>select bookings.ref_id,bookings.dname,bookings.cname,clients.phone_number from bookings left join clients on bookings.cname = clients.name;</sql>
       <result element="Bookings" rowName="bookings">
          <element column="ref_id" name="ref_id" xsdType="string"/>
-         <element column="dname" name="driver_name" xsdType="string"/>
-         <element column="cname" name="client_name" xsdType="string"/>
-         <element column="phone_number" name="phone_number" xsdType="string"/>
+         <element column="dname" name="driver" xsdType="string"/>
+         <element column="cname" name="client" xsdType="string"/>
+         <element column="phone_number" name="client-phone" xsdType="string"/>
       </result>
    </query>
    <operation name="getClientData">
