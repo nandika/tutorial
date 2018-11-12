@@ -31,7 +31,7 @@ create table if not exists bookings (
     foreign key (cname) references clients(name)
 )engine innodb;
 
-insert into drivers values('tiger nixon','0208007001','car','CAS 234', 'D0072');
+insert into drivers values('Tiger nixon','0208007001','car','CAS 234', 'D0072');
 insert into drivers values('Lucas Thiyago','0208007002','van','KNW 456','D0053');
 insert into drivers values('Woo Jin','0208007003','car','HGY 423','D0027');
 insert into drivers values('Airi Satou','0208007004','car','KAW 467','D0013');
