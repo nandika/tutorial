@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <endpoint name="GetDriverEP" xmlns="http://ws.apache.org/ns/synapse">
-    <http method="get" uri-template="http://localhost:8282/services/BookingsDataService.HTTPEndpoint/drivers/{uri.var.driver}"/>
+    <http method="get" uri-template="http://localhost:8282/services/BookingsDataService.HTTPEndpoint/drivers/{uri.var.driver}">
+        <timeout>
+            <duration>60000</duration>
+            <responseAction>fault</responseAction>
+        </timeout>
+    </http>
 </endpoint>

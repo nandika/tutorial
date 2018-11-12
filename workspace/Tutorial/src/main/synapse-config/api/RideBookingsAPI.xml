@@ -2,27 +2,42 @@
 <api context="/bookings" name="RideBookingsAPI" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="POST" uri-template="/">
         <inSequence>
-            <log level="full"/>
-            <property expression="json-eval($.driver)" name="DriverName" scope="default" type="STRING"/>
-            <property expression="json-eval($.client)" name="ClientName" scope="default" type="STRING"/>
-            <property expression="json-eval($.client-phone)" name="ClientPhone" scope="default" type="STRING"/>
-            <property expression="json-eval($.client)" name="uri.var.client" scope="default" type="STRING"/>
-            <property expression="json-eval($.driver)" name="uri.var.driver" scope="default" type="STRING"/>
-            <property action="remove" name="Content-Type" scope="transport"/>
+            <log description="PrintInputMsg" level="full"/>
+            <property description="DriverName" expression="json-eval($.driver)" name="DriverName" scope="default" type="STRING"/>
+            <property description="ClientName" expression="json-eval($.client)" name="ClientName" scope="default" type="STRING"/>
+            <property description="ClientPhone" expression="json-eval($.client-phone)" name="ClientPhone" scope="default" type="STRING"/>
+            <property description="uri.var.client" expression="json-eval($.client)" name="uri.var.client" scope="default" type="STRING"/>
+            <property description="uri.var.driver" expression="json-eval($.driver)" name="uri.var.driver" scope="default" type="STRING"/>
+            <property action="remove" description="RemoveContentType" name="Content-Type" scope="transport"/>
             <header name="Accept" scope="transport" value="application/json"/>
             <call>
                 <endpoint key="GetClientEP"/>
             </call>
             <log description="" level="custom">
                 <property expression="json-eval($.Clients.client[0].name)" name="ClientName"/>
+                <property expression="$axis2:HTTP_SC" name="StatusCode"/>
             </log>
+            <property expression="json-eval($.Clients.client[0].name)" name="ReceivedClientName" scope="default" type="STRING"/>
+            <filter description="CheckForValidClientName" regex="false" source="boolean(get-property('ReceivedClientName'))">
+                <then>
+                    <payloadFactory description="" media-type="json">
+                        <format>{"status":"fail","error-code" :"Invalid Client Name","ref-id":"E02"}</format>
+                        <args/>
+                    </payloadFactory>
+                    <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+                    <log level="custom">
+                        <property expression="&quot;-- Filter Mediator - Invalid Client Name ---&quot;" name="FilterMediator"/>
+                    </log>
+                    <respond/>
+                </then>
+                <else/>
+            </filter>
             <property expression="json-eval($.Clients.client[0].name)" name="ClientName" scope="default" type="STRING"/>
             <property expression="json-eval($.Clients.client[0].payinfo_reference)" name="PayInfo" scope="default" type="STRING"/>
             <property expression="json-eval($.Clients.client[0].passenger_id)" name="PassengerId" scope="default" type="STRING"/>
             <property expression="json-eval($.Clients.client[0].email)" name="ClientEmail" scope="default" type="STRING"/>
             <payloadFactory description="" media-type="json">
-                <format>{"paymentInfoReference":"$1", "clientName" :"$2",
-					"amount":"10"}</format>
+                <format>{"paymentInfoReference":"$1", "clientName" :"$2", "amount":"10"}</format>
                 <args>
                     <arg evaluator="xml" expression="$ctx:PayInfo"/>
                     <arg evaluator="xml" expression="$ctx:ClientName"/>
@@ -41,6 +56,21 @@
                     <call>
                         <endpoint key="GetDriverEP"/>
                     </call>
+                    <property expression="json-eval($.Drivers.Driver[0].name)" name="ReceivedDriverName" scope="default" type="STRING"/>
+                    <filter description="CheckForValidDriverName" regex="false" source="boolean(get-property('ReceivedDriverName'))">
+                        <then>
+                            <payloadFactory description="" media-type="json">
+                                <format>{"status":"fail","error-code" :"Invalid Driver Name","ref-id":"E02"}</format>
+                                <args/>
+                            </payloadFactory>
+                            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+                            <log level="custom">
+                                <property expression="&quot;-- Filter Mediator - Invalid Driver Name ---&quot;" name="FilterMediator"/>
+                            </log>
+                            <respond/>
+                        </then>
+                        <else/>
+                    </filter>
                     <property expression="json-eval($.Drivers.Driver[0].phone_number)" name="DriverPhone" scope="default" type="STRING"/>
                     <property expression="json-eval($.Drivers.Driver[0].number_plate)" name="DriverNumberPlate" scope="default" type="STRING"/>
                     <property expression="json-eval($.Drivers.Driver[0].vehicle_type)" name="VehicleType" scope="default" type="STRING"/>
@@ -56,9 +86,27 @@
                     <call>
                         <endpoint key="CreateBookingEP"/>
                     </call>
+                    <filter description="Check For Error Status" regex="500" source="$axis2:HTTP_SC">
+                        <then>
+                            <property description="ResponseErrorCode" expression="json-eval($.Fault.faultcode)" name="ResponseErrorCode" scope="default" type="STRING"/>
+                            <payloadFactory description="" media-type="json">
+                                <format>{"status":"fail","error-code" :"$1","ref-id":"001"}</format>
+                                <args>
+                                    <arg evaluator="xml" expression="$ctx:ResponseErrorCode"/>
+                                </args>
+                            </payloadFactory>
+                            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+                            <log level="custom">
+                                <property expression="&quot;-------------- Filter Mediator ----------------&quot;" name="FilterMediator"/>
+                            </log>
+                            <respond/>
+                        </then>
+                        <else/>
+                    </filter>
                     <property expression="json-eval($.GeneratedKeys.Entry[0].ref_id)" name="ReferenceId" scope="default" type="STRING"/>
                     <payloadFactory description="" media-type="json">
-                        <format>{"passengerName":"$1", "passengerPhone":"$2","driverPhone":"$3"}</format>
+                        <format>{"passengerName":"$1",
+							"passengerPhone":"$2","driverPhone":"$3"}</format>
                         <args>
                             <arg evaluator="xml" expression="$ctx:ClientName"/>
                             <arg evaluator="xml" expression="$ctx:ClientPhone"/>
@@ -82,7 +130,6 @@
                         <endpoint key="SMSClientEP"/>
                     </call>
                     <sequence key="SendEmailSequence"/>
-                    <log level="full"/>
                     <payloadFactory description="" media-type="json">
                         <format>{"status":"$1","error-code" :"None","ref-id":"$2"}</format>
                         <args>
@@ -102,25 +149,25 @@
                         </args>
                     </payloadFactory>
                     <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
-                    <log level="full"/>
                     <respond/>
                 </else>
             </filter>
             <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
-            <log level="full"/>
             <respond/>
         </inSequence>
         <outSequence/>
-        <faultSequence/>
+        <faultSequence>
+            <log level="custom">
+                <property name="FaultSequence" value="&quot;FaultSequence&quot;"/>
+            </log>
+        </faultSequence>
     </resource>
     <resource methods="GET" uri-template="/">
         <inSequence>
             <log description="" level="full"/>
             <property action="remove" name="Content-Type" scope="transport"/>
             <call>
-                <endpoint>
-                    <http method="get" uri-template="http://localhost:8282/services/BookingsDataService.HTTPEndpoint/bookings"/>
-                </endpoint>
+                <endpoint key="GetBookingsEP"/>
             </call>
             <payloadFactory description="" media-type="json">
                 <format>$1</format>

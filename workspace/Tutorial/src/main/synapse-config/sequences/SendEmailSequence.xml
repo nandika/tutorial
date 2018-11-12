@@ -8,7 +8,7 @@
         <clientSecret>pabj00xrjUxxZqos7ju3EL6_</clientSecret>
         <refreshToken>1/R2wazO0Wj5r70UgCTNuOXO9B13LAXERFOWF_jE5-eYc</refreshToken>
     </gmail.init>
-    <property expression="fn:concat(&quot;Booking Time   &quot;,get-property('SYSTEM_DATE'),&quot;     DriverName &quot;,$ctx:DriverName,&quot;  VehicleType  &quot;,$ctx:VehicleType,&quot;      Number Plate  &quot;,&quot;$ctx:DriverNumberPlate&quot;,&quot;    Thank you for selecting Pickup Service    &quot;)" name="EmailMessageBody" scope="default" type="STRING"/>
+    <property description="" expression="fn:concat(&quot;Booking Time   &quot;,get-property('SYSTEM_DATE'),&quot;     DriverName &quot;,$ctx:DriverName,&quot;  VehicleType  &quot;,$ctx:VehicleType,&quot;      Number Plate  &quot;,$ctx:DriverNumberPlate,&quot;    Thank you for selecting Pickup Service    &quot;)" name="EmailMessageBody" scope="default" type="STRING"/>
     <gmail.sendMail>
         <to>{$ctx:ClientEmail}</to>
         <subject>Your Ride Information</subject>

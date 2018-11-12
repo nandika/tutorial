@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <endpoint name="CreateBookingEP" xmlns="http://ws.apache.org/ns/synapse">
-    <http method="post" uri-template="http://localhost:8282/services/BookingsDataService.HTTPEndpoint/bookings"/>
+    <http method="post" uri-template="http://localhost:8282/services/BookingsDataService.HTTPEndpoint/bookings">
+        <timeout>
+            <duration>60000</duration>
+            <responseAction>fault</responseAction>
+        </timeout>
+    </http>
 </endpoint>

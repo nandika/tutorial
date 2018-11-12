@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <endpoint name="GetClientEP" xmlns="http://ws.apache.org/ns/synapse">
-    <http method="get" uri-template="http://localhost:8282/services/BookingsDataService.HTTPEndpoint/clients/{uri.var.client}"/>
+    <http method="get" uri-template="http://localhost:8282/services/BookingsDataService.HTTPEndpoint/clients/{uri.var.client}">
+        <timeout>
+            <duration>60000</duration>
+            <responseAction>fault</responseAction>
+        </timeout>
+    </http>
 </endpoint>

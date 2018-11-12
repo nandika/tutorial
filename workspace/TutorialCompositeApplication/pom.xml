@@ -13,10 +13,11 @@
     <org.wso2.tutorial.endpoint_._SMSDriverEP>capp/EnterpriseServiceBus</org.wso2.tutorial.endpoint_._SMSDriverEP>
     <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
     <org.wso2.tutorial.endpoint_._GetDriverEP>capp/EnterpriseServiceBus</org.wso2.tutorial.endpoint_._GetDriverEP>
-    <org.wso2.tutorial.lib_._gmail-connector>capp/EnterpriseServiceBus</org.wso2.tutorial.lib_._gmail-connector>
     <org.wso2.tutorial.sequence_._SendEmailSequence>capp/EnterpriseServiceBus</org.wso2.tutorial.sequence_._SendEmailSequence>
-    <org.wso2.tutorial.endpoint_._SMSClientEP>capp/EnterpriseServiceBus</org.wso2.tutorial.endpoint_._SMSClientEP>
+    <org.wso2.tutorial.lib_._gmail-connector>capp/EnterpriseServiceBus</org.wso2.tutorial.lib_._gmail-connector>
     <org.wso2.tutorial.api_._RideBookingsAPI>capp/EnterpriseServiceBus</org.wso2.tutorial.api_._RideBookingsAPI>
+    <org.wso2.tutorial.endpoint_._SMSClientEP>capp/EnterpriseServiceBus</org.wso2.tutorial.endpoint_._SMSClientEP>
+    <org.wso2.tutorial.endpoint_._GetBookingsEP>capp/EnterpriseServiceBus</org.wso2.tutorial.endpoint_._GetBookingsEP>
     <org.wso2.tutorial.endpoint_._PaymentsEndpoint>capp/EnterpriseServiceBus</org.wso2.tutorial.endpoint_._PaymentsEndpoint>
     <org.wso2.tutorial.endpoint_._GetClientEP>capp/EnterpriseServiceBus</org.wso2.tutorial.endpoint_._GetClientEP>
   </properties>
@@ -36,6 +37,12 @@
     <dependency>
       <groupId>org.wso2.tutorial.endpoint</groupId>
       <artifactId>GetDriverEP</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>org.wso2.tutorial.endpoint</groupId>
+      <artifactId>GetBookingsEP</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>

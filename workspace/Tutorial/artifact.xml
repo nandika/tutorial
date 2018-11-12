@@ -23,4 +23,7 @@
     <artifact name="SMSClientEP" groupId="org.wso2.tutorial.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/endpoints/SMSClientEP.xml</file>
     </artifact>
+    <artifact name="GetBookingsEP" groupId="org.wso2.tutorial.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/GetBookingsEP.xml</file>
+    </artifact>
 </artifacts>
