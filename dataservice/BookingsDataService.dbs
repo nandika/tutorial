@@ -47,7 +47,7 @@
    <query id="getBookings" useConfig="BookingDS">
       <sql>select bookings.ref_id,bookings.dname,bookings.cname,clients.phone_number from bookings left join clients on bookings.cname = clients.name;</sql>
       <result element="Bookings" rowName="bookings">
-         <element column="ref_id" name="ref_id" xsdType="string"/>
+         <element column="ref_id" name="ref-id" xsdType="string"/>
          <element column="dname" name="driver" xsdType="string"/>
          <element column="cname" name="client" xsdType="string"/>
          <element column="phone_number" name="client-phone" xsdType="string"/>
