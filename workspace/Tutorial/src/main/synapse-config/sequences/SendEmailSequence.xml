@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="SendEmailSequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <gmail.init>
-        <userId>emailconnectoracc@gmail.com</userId>
-        <accessToken>ya29.GltQBj0JeZux_YpJHxDuBZZy6wWsk2ghy3dLx2KbZVWLRpyYKtfeQeMX7p3WUtZ62Y6Qa8aoBf4JKdO-X59oKzxFIaCaF_lZxDHwPkGyGaaZ9LQhUWOYq3tMcu_a</accessToken>
-        <apiUrl>https://www.googleapis.com/gmail</apiUrl>
-        <clientId>822529918996-ap5hn7s8iakb0qgjtjf7m6fi603t3unv.apps.googleusercontent.com</clientId>
-        <clientSecret>pabj00xrjUxxZqos7ju3EL6_</clientSecret>
-        <refreshToken>1/R2wazO0Wj5r70UgCTNuOXO9B13LAXERFOWF_jE5-eYc</refreshToken>
+       
     </gmail.init>
     <property description="" expression="fn:concat(&quot;Booking Time   &quot;,get-property('SYSTEM_DATE'),&quot;     DriverName &quot;,$ctx:DriverName,&quot;  VehicleType  &quot;,$ctx:VehicleType,&quot;      Number Plate  &quot;,$ctx:DriverNumberPlate,&quot;    Thank you for selecting Pickup Service    &quot;)" name="EmailMessageBody" scope="default" type="STRING"/>
     <gmail.sendMail>
-        <to>{$ctx:ClientEmail}</to>
-        <subject>Your Ride Information</subject>
-        <from>emailconnectoracc@gmail.com</from>
-        <messageBody>{$ctx:EmailMessageBody}</messageBody>
+       
     </gmail.sendMail>
 </sequence>
